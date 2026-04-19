@@ -20,14 +20,12 @@ app.get('/api/health', (req, res) => {
 });
 
 // Routes
-const routeFiles = ['auth', 'pujas', 'temples', 'priests', 'bookings', 'payments', 'users'];
-routeFiles.forEach(route => {
-  try {
-    app.use(`/api/${route}`, require(`./routes/${route}`));
-  } catch (e) {
-    console.log(`Route not found: ${route}`);
-  }
-});
+app.use('/api/auth',     require('./routes/authRoutes'));
+app.use('/api/pujas',    require('./routes/pujaRoutes'));
+app.use('/api/temples',  require('./routes/templeRoutes'));
+app.use('/api/priests',  require('./routes/priestRoutes'));
+app.use('/api/bookings', require('./routes/bookingRoutes'));
+app.use('/api/admin',    require('./routes/adminRoutes'));
 
 // MongoDB Connection
 mongoose.connect(process.env.MONGODB_URI)
