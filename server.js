@@ -26,6 +26,7 @@ app.use('/api/temples',  require('./routes/templeRoutes'));
 app.use('/api/priests',  require('./routes/priestRoutes'));
 app.use('/api/bookings', require('./routes/bookingRoutes'));
 app.use('/api/admin',    require('./routes/adminRoutes'));
+app.use('/api/upload',   require('./routes/uploadRoutes'));
 
 // MongoDB Connection
 mongoose.connect(process.env.MONGODB_URI)
