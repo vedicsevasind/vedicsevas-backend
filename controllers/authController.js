@@ -108,3 +108,26 @@ exports.updateProfile = async (req, res) => {
     res.status(500).json({ success: false, message: error.message });
   }
 };
+// POST /api/auth/google
+exports.googleAuth = async (req, res) => {
+  try {
+    const { name, email, googleId, photo } = req.body;
+    if (!email) return res.status(400).json({ success: false, message: 'Email required' });
+
+    let user = await User.findOne({ email });
+    if (!user) {
+      user = await User.create({
+        name: name || 'VedicSevas User',
+        email,
+        password: googleId + '_google_auth_' + Date.now(),
+        phone: '',
+        isAdmin: false
+      });
+    }
+
+    const token = generateToken(user._id);
+    res.json({ success: true, token, user: { id: user._id, name: user.name, email: user.email, isAdmin: user.isAdmin } });
+  } catch (error) {
+    res.status(500).json({ success: false, message: error.message });
+  }
+};
